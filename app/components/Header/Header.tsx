@@ -54,7 +54,7 @@ export const Header = () => {
             <div className="md:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition-colors duration-200"
+                className="text-white  focus:outline-none  transition-colors duration-200"
                 aria-label="Toggle menu"
               >
                 <svg
@@ -84,7 +84,7 @@ export const Header = () => {
                   <a 
                     href="#about" 
                     onClick={closeMenu}
-                    className="block text-gray-700 hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
+                    className="block text-white hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
                   >
                     About
                   </a>
@@ -93,7 +93,7 @@ export const Header = () => {
                   <a 
                     href="#experience" 
                     onClick={closeMenu}
-                    className="block text-gray-700 hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
+                    className="block text-white hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
                   >
                     Experience
                   </a>
@@ -102,7 +102,7 @@ export const Header = () => {
                   <a 
                     href="#skills" 
                     onClick={closeMenu}
-                    className="block text-gray-700 hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
+                    className="block text-white hover:text-white hover:bg-black px-6 py-4 text-lg font-medium transition-all duration-200 "
                   >
                     Skills
                   </a>
