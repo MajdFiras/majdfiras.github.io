@@ -5,7 +5,8 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  distDir: 'dist'
+  distDir: 'dist',
+  outDir: 'dist'
 }
 
 module.exports = nextConfig
