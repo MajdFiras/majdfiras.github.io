@@ -2,7 +2,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #222831;
+}
+
+/* Dark mode variables */
+.dark {
+  --background: #222831;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,12 +18,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* System preference dark mode (optional - next-themes handles this) */
 @media (prefers-color-scheme: dark) {
-  
+  :root:not(.light) {
+    --background: #222831;
+    --foreground: #ededed;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Additional dark mode styles for common elements */
+.dark {
+  color-scheme: dark;
+}
+
+/* Optional: Make sure all text inherits the foreground color */
+.dark * {
+  border-color: rgb(55 65 81 / 0.3);
+}
+
+/* Optional: Dark mode scrollbar */
+.dark::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark::-webkit-scrollbar-track {
+  background: rgb(17 24 39);
+}
+
+.dark::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99);
+  border-radius: 4px;
+}
+
+.dark::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
 }
