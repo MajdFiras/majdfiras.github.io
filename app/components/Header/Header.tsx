@@ -6,9 +6,19 @@ import { useTheme } from 'next-themes'
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const { theme } = useTheme()
+
   useEffect(() => {
     setMounted(true)
+
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10
+      setScrolled(isScrolled)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const toggleMenu = () => {
@@ -24,64 +34,53 @@ export const Header = () => {
   }
   if (!mounted) {
     return (
-      <div>
-        <header 
-          className="p-4 border-b transition-all duration-300"
-          style={{
-            backgroundColor: 'var(--header-bg)',
-            borderColor: 'var(--header-border)',
-            color: 'var(--header-text)'
-          }}
-        >
-          <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <div className="flex-shrink-0 cursor-pointer" onClick={handleLogoClick}>
-                <h1 className="text-4xl font-bold" style={{ color: 'var(--header-text)' }}>
-                  M<span className='text-red-600'>.</span>
-                </h1>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <header className="bg-white dark:bg-black backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-all duration-300">
+          <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-20">
+              <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
+                <div className="relative">
+                  <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white group-hover:scale-105 transition-transform duration-300">
+                    M<span className="text-red-600">.</span>
+                  </h1>
+                  <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></div>
+                </div>
               </div>
-              
-              {/* Desktop Navigation - Simplified for loading state */}
-              <ul className="hidden md:flex space-x-8">
+
+              <ul className="hidden md:flex items-center space-x-2">
                 <li>
-                  <a 
-                    href="#about" 
-                    className="px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md hover:bg-black hover:!text-white"
-                    style={{ color: 'var(--header-text)' }}
+                  <a
+                    href="#about"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
                   >
                     About
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#experience" 
-                    className="px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md hover:bg-black hover:!text-white"
-                    style={{ color: 'var(--header-text)' }}
+                  <a
+                    href="#experience"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
                   >
                     Experience
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#skills" 
-                    className="px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md hover:bg-black hover:!text-white"
-                    style={{ color: 'var(--header-text)' }}
+                  <a
+                    href="#skills"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
                   >
                     Skills
                   </a>
                 </li>
               </ul>
 
-              {/* Theme Toggle and Mobile Menu Button */}
               <div className="flex items-center space-x-4">
                 <ThemeToggle />
-                
+
                 <div className="md:hidden">
                   <button
                     onClick={toggleMenu}
-                    className="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 p-2 rounded-md"
-                    style={{ color: 'var(--header-text)' }}
+                    className="p-2 rounded-lg text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
                     aria-label="Toggle menu"
                   >
                     <svg
@@ -104,36 +103,32 @@ export const Header = () => {
               </div>
             </div>
 
-            {/* Mobile Navigation Menu */}
             {isMenuOpen && (
-              <div className="md:hidden mt-4 pb-4 border-t pt-4" style={{ borderColor: 'var(--header-border)' }}>
+              <div className="md:hidden mt-4 pb-6 border-t border-gray-200 dark:border-gray-800 pt-4">
                 <ul className="flex flex-col space-y-2">
                   <li>
-                    <a 
-                      href="#about" 
+                    <a
+                      href="#about"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md hover:bg-black hover:!text-white"
-                      style={{ color: 'var(--header-text)' }}
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
                     >
                       About
                     </a>
                   </li>
                   <li>
-                    <a 
-                      href="#experience" 
+                    <a
+                      href="#experience"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md hover:bg-black hover:!text-white"
-                      style={{ color: 'var(--header-text)' }}
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
                     >
                       Experience
                     </a>
                   </li>
                   <li>
-                    <a 
-                      href="#skills" 
+                    <a
+                      href="#skills"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md hover:bg-black hover:!text-white"
-                      style={{ color: 'var(--header-text)' }}
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
                     >
                       Skills
                     </a>
@@ -148,72 +143,72 @@ export const Header = () => {
   }
 
   return (
-    <div>
-      <header 
-        className="p-4 border-b transition-all duration-300"
-        style={{
-          backgroundColor: 'var(--header-bg)',
-          borderColor: 'var(--header-border)',
-          color: 'var(--header-text)'
-        }}
+    <div className="fixed top-0 left-0 right-0 z-50">
+      <header
+        className={`transition-all duration-500 bg-white dark:bg-black border-b ${
+          scrolled
+            ? 'backdrop-blur-lg border-gray-300 dark:border-gray-700 shadow-lg'
+            : 'backdrop-blur-md border-gray-200 dark:border-gray-800'
+        }`}
       >
-        <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex-shrink-0 cursor-pointer" onClick={handleLogoClick}>
-              <h1 className="text-4xl font-bold" style={{ color: 'var(--header-text)' }}>
-                M<span className='text-red-600'>.</span>
-              </h1>
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
+              <div className="relative">
+                <h1 className={`text-3xl md:text-4xl font-bold text-black dark:text-white group-hover:scale-105 transition-transform duration-300 ${
+                  scrolled ? 'drop-shadow-sm' : ''
+                }`}>
+                  M<span className="text-red-600">.</span>
+                </h1>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></div>
+              </div>
             </div>
-            
-            {/* Desktop Navigation */}
-            <ul className="hidden md:flex space-x-8">
+
+            <ul className="hidden md:flex items-center space-x-2">
               <li>
-                <a 
-                  href="#about" 
-                  className={`px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                  style={{ color: 'var(--header-text)' }}
+                <a
+                  href="#about"
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
                 >
                   About
                 </a>
               </li>
               <li>
-                <a 
-                  href="#experience" 
-                  className={`px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                  style={{ color: 'var(--header-text)' }}
+                <a
+                  href="#experience"
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
                 >
                   Experience
                 </a>
               </li>
               <li>
-                <a 
-                  href="#skills" 
-                  className={`px-6 py-3 text-lg font-medium transition-all duration-300 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                  style={{ color: 'var(--header-text)' }}
+                <a
+                  href="#skills"
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
                 >
                   Skills
                 </a>
               </li>
             </ul>
+
             <div className="flex items-center space-x-4">
               <ThemeToggle />
-              
+
               <div className="md:hidden">
                 <button
                   onClick={toggleMenu}
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 p-2 rounded-md"
-                  style={{ color: 'var(--header-text)' }}
+                  className="p-2 rounded-lg text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
                   aria-label="Toggle menu"
                 >
                   <svg
-                    className="h-6 w-6"
+                    className="h-6 w-6 transition-transform duration-300"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
+                    style={{ transform: isMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
                   >
                     {isMenuOpen ? (
                       <path d="M6 18L18 6M6 6l12 12" />
@@ -221,45 +216,41 @@ export const Header = () => {
                       <path d="M4 6h16M4 12h16M4 18h16" />
                     )}
                   </svg>
-                  </button>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t pt-4" style={{ borderColor: 'var(--header-border)' }}>
+            <div className="md:hidden mt-4 pb-6 border-t border-gray-200 dark:border-gray-800 pt-4 animate-in slide-in-from-top duration-300">
               <ul className="flex flex-col space-y-2">
                 <li>
-                  <a 
-                    href="#about" 
+                  <a
+                    href="#about"
                     onClick={closeMenu}
-                    className={`block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                    style={{ color: 'var(--header-text)' }}
+                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl ${theme === 'dark' ? 'hover:bg-white hover:text-black' : 'hover:bg-black hover:text-white'} transition-all duration-300`}
                   >
                     About
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#experience" 
+                  <a
+                    href="#experience"
                     onClick={closeMenu}
-                    className={`block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                    style={{ color: 'var(--header-text)' }}
+                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl ${theme === 'dark' ? 'hover:bg-white hover:text-black' : 'hover:bg-black hover:text-white'} transition-all duration-300`}
                   >
                     Experience
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#skills" 
+                  <a
+                    href="#skills"
                     onClick={closeMenu}
-                    className={`block px-6 py-4 text-lg font-medium transition-all duration-200 rounded-md ${theme === 'dark' ? 'hover:bg-white hover:!text-black' : 'hover:bg-black hover:!text-white'}`}
-                    style={{ color: 'var(--header-text)' }}
+                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl ${theme === 'dark' ? 'hover:bg-white hover:text-black' : 'hover:bg-black hover:text-white'} transition-all duration-300`}
                   >
                     Skills
                   </a>
-                  </li>
+                </li>
               </ul>
             </div>
           )}
