@@ -228,7 +228,7 @@ export const Header = () => {
                   <a
                     href="#about"
                     onClick={closeMenu}
-                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl ${theme === 'dark' ? 'hover:bg-white hover:text-black' : 'hover:bg-black hover:text-white'} transition-all duration-300`}
+                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300`}
                   >
                     About
                   </a>
