@@ -126,7 +126,7 @@ const HeroSection = () => {
         </h1>
 
         {/* Dynamic Role */}
-        <div className="mb-8 h-16 flex items-center justify-center">
+        <div className="mb-12 h-16 flex items-center justify-center">
           <span className={`text-xl md:text-2xl lg:text-3xl font-semibold ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-all duration-500 transform`}>
             {roles[currentRole]}
             <span className="animate-pulse">|</span>
