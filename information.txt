@@ -1,0 +1,170 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-2pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Majd Firas} \\ \vspace{1pt}
+    \small34199665$|$ \href{mailto:majdfir4s@gmail.com}{\underline{majdfir4s@gmail.com}} $|$ 
+    \href{https://linkedin.com/in/majdfiras}{\underline{linkedin.com/in/majdfiras}} $|$
+    \href{https://github.com/MajdFiras}{\underline{github.com/MajdFiras}}
+\end{center}
+
+%-----------PROFILE-----------
+\section{Profile}
+  \resumeSubHeadingListStart
+    \resumeItem{Software Engineer with experience in designing, developing, and deploying scalable applications. Skilled in modern web frameworks (MERN, Django, Laravel) and cloud technologies (AWS, Docker, Kubernetes). Strong background in algorithms, system design, and CI/CD pipelines with GitHub Actions. Passionate about building efficient, reliable, and user-focused solutions.}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE & PROJECTS-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Use Local}{Dec 2024 -- Present}
+      {Full stack developer}{Manama}
+      \resumeItemListStart
+        \resumeItem{Engineered a restaurant QR code ordering platform with Next.js, Laravel, and PostgreSQL.}
+        \resumeItem{Integrated POS systems with providers (Foodics, SNAPos-POSbank, Odoo, CompuCash) to streamline data flow.}
+        \resumeItem{Built responsive customer-facing interfaces for an improved user experience.}
+        \resumeItem{Integrated Google Pay and Apple Pay APIs to enhance checkout processes.}
+        \resumeItem{Implemented CI/CD pipelines with GitHub Actions for automated testing and deployments.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {MediaTalk (Project)}{2024}
+      {Software Engineer}{Remote}
+      \resumeItemListStart
+        \resumeItem{Developed a social media application using the MERN stack and MaterialUI.}
+        \resumeItem{Implemented secure JWT authentication for managing user sessions.}
+        \resumeItem{Designed dark/light mode features and responsive UI for better accessibility.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {PAPER (Project)}{2024}
+      {Software Engineer}{Remote}
+      \resumeItemListStart
+        \resumeItem{Implemented CRUD operations for task management using ReactJS and MaterialUI.}
+        \resumeItem{Enhanced user experience by persisting tasks with local storage across sessions.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {IntelliHub (Project)}{2024}
+      {Software Engineer}{Remote}
+      \resumeItemListStart
+        \resumeItem{Built a full-stack web application using Django, Tailwind, and PostgreSQL.}
+        \resumeItem{Implemented JWT authentication and integrated external APIs to extend system functionality.}
+        \resumeItem{Developed reporting features to support business insights.}
+        \resumeItem{Containerized application with Docker for reproducible deployments.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: JavaScript, TypeScript, PHP, Python, Java, C++, SQL (PostgreSQL, MySQL), noSQL (MongoDB, Redis)}  \\
+     \textbf{Frameworks}{: Next.js, Laravel, Express, Flask, Django, Angular, Material-UI} \\
+     \textbf{Developer Tools}{: Git, GitHub Actions, Docker, Kubernetes, VS Code, Visual Studio, PyCharm, IntelliJ, Eclipse} \\
+     \textbf{Libraries}{: React, Ionic, Axios, pandas, NumPy, Matplotlib} \\
+     \textbf{Others}{: Node.js, AWS, Azure, Linux, RESTful API, HTML, CSS}
+    }}
+ \end{itemize}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Bahrain}{}
+      {Bachelor in Computer Science}{Sep. 2019 -- Aug. 2024}
+  \resumeSubHeadingListEnd
+
+\end{document}
