@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import ThemeToggle from '../Theme/ThemeToggle'
-import Logo from '../Logo/Logo'
 import { useTheme } from 'next-themes'
 
 export const Header = () => {
@@ -39,7 +38,14 @@ export const Header = () => {
         <header className="bg-white dark:bg-black backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-all duration-300">
           <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-20">
-              <Logo size="md" onClick={handleLogoClick} />
+              <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
+                <div className="relative">
+                  <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white group-hover:scale-105 transition-transform duration-300">
+                    M<span className="text-red-600">.</span>
+                  </h1>
+                  <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></div>
+                </div>
+              </div>
 
               <ul className="hidden md:flex items-center space-x-2">
                 <li>
@@ -147,11 +153,16 @@ export const Header = () => {
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Logo
-              size="md"
-              onClick={handleLogoClick}
-              className={scrolled ? 'drop-shadow-sm' : ''}
-            />
+            <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
+              <div className="relative">
+                <h1 className={`text-3xl md:text-4xl font-bold text-black dark:text-white group-hover:scale-105 transition-transform duration-300 ${
+                  scrolled ? 'drop-shadow-sm' : ''
+                }`}>
+                  M<span className="text-red-600">.</span>
+                </h1>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></div>
+              </div>
+            </div>
 
             <ul className="hidden md:flex items-center space-x-2">
               <li>

@@ -1,0 +1,7 @@
+<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="180" height="180" fill="#DC2626" rx="32"/>
+
+  <!-- Text -->
+  <text x="90" y="120" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">MF</text>
+</svg>

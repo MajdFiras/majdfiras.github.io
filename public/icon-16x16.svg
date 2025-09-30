@@ -1,0 +1,7 @@
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <!-- Letter M -->
+  <text x="2" y="12" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#000000">M</text>
+
+  <!-- Red dot -->
+  <circle cx="13" cy="10" r="2" fill="#DC2626"/>
+</svg>
