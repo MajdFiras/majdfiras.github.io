@@ -3,6 +3,12 @@ import React, { useState, useEffect } from 'react'
 import ThemeToggle from '../Theme/ThemeToggle'
 import Logo from '../Logo/Logo'
 import { useTheme } from 'next-themes'
+import { Lato } from 'next/font/google'
+
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -41,11 +47,11 @@ export const Header = () => {
             <div className="flex justify-between items-center h-20">
               <Logo size="md" onClick={handleLogoClick} />
 
-              <ul className="hidden md:flex items-center space-x-2">
+              <ul className="hidden md:flex items-center space-x-2" style={{ fontFamily: "'Lato', sans-serif" }}>
                 <li>
                   <a
                     href="#about"
-                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105"
                   >
                     About
                   </a>
@@ -53,7 +59,7 @@ export const Header = () => {
                 <li>
                   <a
                     href="#experience"
-                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105"
                   >
                     Experience
                   </a>
@@ -61,7 +67,7 @@ export const Header = () => {
                 <li>
                   <a
                     href="#skills"
-                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105"
+                    className="relative px-6 py-3 text-black dark:text-white font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105"
                   >
                     Skills
                   </a>
@@ -99,12 +105,12 @@ export const Header = () => {
 
             {isMenuOpen && (
               <div className="md:hidden mt-4 pb-6 border-t border-gray-200 dark:border-gray-800 pt-4">
-                <ul className="flex flex-col space-y-2">
+                <ul className="flex flex-col space-y-2" style={{ fontFamily: "'Lato', sans-serif" }}>
                   <li>
                     <a
                       href="#about"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-primary hover:text-white transition-all duration-300"
                     >
                       About
                     </a>
@@ -113,7 +119,7 @@ export const Header = () => {
                     <a
                       href="#experience"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-primary hover:text-white transition-all duration-300"
                     >
                       Experience
                     </a>
@@ -122,7 +128,7 @@ export const Header = () => {
                     <a
                       href="#skills"
                       onClick={closeMenu}
-                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                      className="block px-6 py-4 text-black dark:text-white font-medium rounded-xl hover:bg-primary hover:text-white transition-all duration-300"
                     >
                       Skills
                     </a>
@@ -157,7 +163,7 @@ export const Header = () => {
               <li>
                 <a
                   href="#about"
-                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105`}
                 >
                   About
                 </a>
@@ -165,7 +171,7 @@ export const Header = () => {
               <li>
                 <a
                   href="#experience"
-                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105`}
                 >
                   Experience
                 </a>
@@ -173,7 +179,7 @@ export const Header = () => {
               <li>
                 <a
                   href="#skills"
-                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-red-600 hover:text-white transform hover:scale-105`}
+                  className={`relative px-6 py-3 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl transition-all duration-300 group hover:bg-primary hover:text-white transform hover:scale-105`}
                 >
                   Skills
                 </a>
@@ -217,7 +223,7 @@ export const Header = () => {
                   <a
                     href="#about"
                     onClick={closeMenu}
-                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl hover:bg-red-600 hover:text-white transition-all duration-300`}
+                    className={`block px-6 py-4 ${theme === 'dark' ? 'text-white' : 'text-black'} font-medium rounded-xl hover:bg-primary hover:text-white transition-all duration-300`}
                   >
                     About
                   </a>

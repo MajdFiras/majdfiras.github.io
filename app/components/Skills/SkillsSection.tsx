@@ -210,6 +210,11 @@ const SkillsSection = () => {
           name: 'RESTful APIs',
           icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg',
           color: '#009688'
+        },
+        {
+          name: 'GraphQL',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
+          color: '#E10098'
         }
       ]
     }
@@ -264,7 +269,7 @@ const SkillsSection = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className={`text-4xl md:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-4`}>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             Technical Skills
           </h2>
           <p className={`text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
@@ -301,8 +306,8 @@ const SkillsSection = () => {
                     key={skill.name}
                     className={`group flex flex-col items-center p-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 cursor-pointer ${
                       theme === 'dark'
-                        ? 'bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-red-500'
-                        : 'bg-gray-50 hover:bg-white border border-gray-200 hover:border-red-500 hover:shadow-lg'
+                        ? 'bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-primary'
+                        : 'bg-gray-50 hover:bg-white border border-gray-200 hover:border-primary hover:shadow-lg'
                     }`}
                     style={{
                       animationDelay: `${skillIndex * 50}ms`,

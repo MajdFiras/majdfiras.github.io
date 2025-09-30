@@ -3,19 +3,35 @@
 :root {
   --background: #ffffff;
   --foreground: #222831;
+  --primary: #d97757;
 }
 
 /* Dark mode variables */
 .dark {
   --background: #222831;
   --foreground: #ededed;
+  --primary: #d97757;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-50: #fdf6f3;
+  --color-primary-100: #fae8e1;
+  --color-primary-200: #f5d1c3;
+  --color-primary-300: #eeae9b;
+  --color-primary-400: #e58568;
+  --color-primary-500: #d97757;
+  --color-primary-600: #c15436;
+  --color-primary-700: #a1422b;
+  --color-primary-800: #863a27;
+  --color-primary-900: #703426;
+  --color-primary-950: #3d1911;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-lato: var(--font-lato);
+  --font-josefin: var(--font-josefin-sans);
 }
 
 /* System preference dark mode (optional - next-themes handles this) */

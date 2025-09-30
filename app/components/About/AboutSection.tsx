@@ -37,15 +37,16 @@ const AboutSection = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className={`text-4xl md:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-4`}>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             About Me
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-6">
-            <div className={`rounded-xl p-8 shadow-lg ${
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Left Side Content */}
+          <div className="flex flex-col gap-6">
+            {/* Profile Box */}
+            <div className={`rounded-xl p-8 shadow-lg flex-1 ${
               theme === 'dark'
                 ? 'bg-black border border-gray-800'
                 : 'bg-white border border-gray-200'
@@ -69,26 +70,24 @@ const AboutSection = () => {
             }`}>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-red-600 mb-2">1+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">1+</div>
                   <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                     Years Experience
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-red-600 mb-2">10+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">10+</div>
                   <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                     Projects Completed
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
 
-          {/* Right Side Content */}
-          <div className="space-y-6">
-            {/* Availability Status */}
-            <div className={`rounded-xl p-8 shadow-lg ${
+          {/* Right Side Content - Availability Status */}
+          <div className="flex">
+            <div className={`rounded-xl p-8 shadow-lg flex-1 flex flex-col ${
               theme === 'dark'
                 ? 'bg-black border border-gray-800'
                 : 'bg-white border border-gray-200'
@@ -97,7 +96,7 @@ const AboutSection = () => {
                 Availability Status
               </h3>
 
-              <div className="space-y-6">
+              <div className="flex flex-col justify-between flex-1 space-y-6">
                 {/* Current Status */}
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
@@ -152,7 +151,7 @@ const AboutSection = () => {
                   </p>
                   <a
                     href="mailto:majdfir4s@gmail.com"
-                    className="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105"
+                    className="inline-flex items-center px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-all duration-300 transform hover:scale-105"
                   >
                     Get In Touch
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -50,7 +50,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick }) => 
         <text
           x="6"
           y="36"
-          fontFamily="Arial, sans-serif"
+          fontFamily="var(--font-josefin-sans), sans-serif"
           fontSize={fontSize[size]}
           fontWeight="bold"
           fill={theme === 'dark' ? '#ffffff' : theme === 'light' ? '#000000' : '#ffffff'}
@@ -59,19 +59,19 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick }) => 
           M
         </text>
 
-        {/* Red dot */}
+        {/* Primary dot */}
         <circle
           cx={dotPosition[size].cx}
           cy={dotPosition[size].cy}
           r={dotSize[size]}
-          fill="#DC2626"
+          fill="#d97757"
           className="group-hover:scale-110 transition-transform duration-300"
           style={{ transformOrigin: `${dotPosition[size].cx}px ${dotPosition[size].cy}px` }}
         />
       </svg>
 
       {/* Hover underline effect */}
-      <div className="w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300 mt-1"></div>
+      <div className="w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 mt-1"></div>
     </div>
   )
 }

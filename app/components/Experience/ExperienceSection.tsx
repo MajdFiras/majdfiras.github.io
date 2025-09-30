@@ -12,6 +12,7 @@ interface Experience {
   description: string[]
   technologies: string[]
   type: 'work' | 'education' | 'project'
+  website?: string
 }
 
 const ExperienceSection = () => {
@@ -40,7 +41,8 @@ const ExperienceSection = () => {
         'Implemented CI/CD pipelines with GitHub Actions for automated testing and deployments'
       ],
       technologies: ['Next.js', 'Laravel', 'PostgreSQL', 'GitHub Actions', 'AWS'],
-      type: 'work'
+      type: 'work',
+      website: 'https://www.uselocal.co/'
     },
     {
       id: 2,
@@ -54,7 +56,8 @@ const ExperienceSection = () => {
         'Designed dark/light mode features and responsive UI for better accessibility'
       ],
       technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'MaterialUI', 'JWT'],
-      type: 'project'
+      type: 'project',
+      website: 'https://github.com/MajdFiras/MediaTalk'
     },
     {
       id: 3,
@@ -82,7 +85,8 @@ const ExperienceSection = () => {
         'Enhanced user experience by persisting tasks with local storage across sessions'
       ],
       technologies: ['React', 'MaterialUI', 'JavaScript', 'Local Storage'],
-      type: 'project'
+      type: 'project',
+      website: 'https://github.com/MajdFiras/ebook-MERN'
     },
     {
       id: 5,
@@ -155,7 +159,7 @@ const ExperienceSection = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className={`text-4xl md:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-4`}>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             My Journey
           </h2>
           <p className={`text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
@@ -165,76 +169,112 @@ const ExperienceSection = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Vertical Line */}
-          <div className={`absolute left-8 top-0 bottom-0 w-1 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} hidden md:block`}></div>
+          {/* Vertical Line - Desktop only */}
+          <div className={`absolute left-6 md:left-8 top-0 bottom-0 w-0.5 md:w-1 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} hidden sm:block`}></div>
 
-          <div className="space-y-12">
+          <div className="space-y-8 md:space-y-12">
             {experiences.map((exp, index) => (
               <div
                 key={exp.id}
                 data-id={exp.id}
-                className="experience-item relative flex items-start space-x-8 transition-all duration-700 transform opacity-100 translate-y-0"
+                className="experience-item relative flex items-start sm:space-x-6 md:space-x-8 transition-all duration-700 transform opacity-100 translate-y-0"
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
-                {/* Timeline Dot */}
-                <div className="relative flex-shrink-0">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-red-600' : 'bg-red-600'} text-white shadow-lg transform transition-all duration-300 hover:scale-110`}>
-                    {getIcon(exp.type)}
+                {/* Timeline Dot - Hidden on mobile */}
+                <div className="relative flex-shrink-0 hidden sm:block">
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 group">
+                    {/* Animated pulse ring - White glow */}
+                    <div className="absolute inset-0 w-full h-full rounded-full animate-pulse bg-white/20"></div>
+
+                    {/* Main circle - Primary */}
+                    <div className={`absolute inset-0 w-full h-full rounded-full flex items-center justify-center transition-all duration-500 bg-primary group-hover:shadow-[0_0_30px_rgba(255,255,255,0.8)]`}>
+                      {/* Icon container */}
+                      <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 text-white transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        {getIcon(exp.type)}
+                      </div>
+                    </div>
                   </div>
-                  {/* Connection Line */}
-                  {index !== experiences.length - 1 && (
-                    <div className={`absolute top-16 left-1/2 transform -translate-x-1/2 w-1 h-12 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} md:hidden`}></div>
-                  )}
                 </div>
 
                 {/* Content Card */}
-                <div className="flex-1">
-                  <div className={`rounded-xl p-8 shadow-lg transition-all duration-300 transform hover:scale-105 ${
+                <div className="flex-1 min-w-0">
+                  <div className={`rounded-lg md:rounded-xl p-4 sm:p-6 md:p-8 shadow-lg transition-all duration-300 md:transform md:hover:scale-105 ${
                     theme === 'dark'
-                      ? 'bg-gray-900 border border-gray-800 hover:border-red-600'
-                      : 'bg-white border border-gray-200 hover:border-red-600 hover:shadow-xl'
+                      ? 'bg-gray-900 border border-gray-800 hover:border-primary'
+                      : 'bg-white border border-gray-200 hover:border-primary md:hover:shadow-xl'
                   }`}>
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                    <div className="flex flex-col gap-2 mb-4">
                       <div>
-                        <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-1`}>
+                        <h3 className={`text-lg sm:text-xl md:text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-1`}>
                           {exp.position}
                         </h3>
-                        <h4 className={`text-xl font-semibold text-red-600 mb-2`}>
-                          {exp.company}
-                        </h4>
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className={`text-base sm:text-lg md:text-xl font-semibold text-primary`}>
+                            {exp.company}
+                          </h4>
+                          {exp.website && (
+                            <a
+                              href={exp.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`flex-shrink-0 p-1 rounded-full transition-all duration-300 hover:scale-110 ${
+                                theme === 'dark'
+                                  ? 'hover:bg-gray-800'
+                                  : 'hover:bg-gray-100'
+                              }`}
+                              aria-label="Visit website"
+                            >
+                              <svg
+                                className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                              </svg>
+                            </a>
+                          )}
+                        </div>
                       </div>
-                      <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'} md:text-right`}>
+                      <div className={`text-xs sm:text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                         <div className="font-semibold">{exp.duration}</div>
                         <div>{exp.location}</div>
                       </div>
                     </div>
 
                     {/* Description */}
-                    <ul className={`space-y-3 mb-6 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <ul className={`space-y-2 sm:space-y-3 mb-4 sm:mb-6 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                       {exp.description.map((item, idx) => (
-                        <li key={idx} className="flex items-start space-x-3">
-                          <span className="text-red-600 mt-1 flex-shrink-0 font-bold">•</span>
-                          <span className="leading-relaxed">{item}</span>
+                        <li key={idx} className="flex items-start space-x-2 sm:space-x-3">
+                          <span className="text-primary mt-1 flex-shrink-0 font-bold text-sm sm:text-base">•</span>
+                          <span className="text-sm sm:text-base leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
 
                     {/* Technologies */}
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className={`px-3 py-1 text-sm rounded-full font-medium transition-all duration-200 hover:scale-105 ${
-                            theme === 'dark'
-                              ? 'bg-gray-800 text-gray-300 hover:bg-red-600 hover:text-white'
-                              : 'bg-gray-100 text-gray-700 hover:bg-red-600 hover:text-white'
-                          }`}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                    {exp.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                        {exp.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${
+                              theme === 'dark'
+                                ? 'bg-gray-800 text-gray-300 hover:bg-primary hover:text-white'
+                                : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
+                            }`}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -84,7 +84,7 @@ const HeroSection = () => {
         </div>
 
         {/* Database Icon */}
-        <div className={`absolute bottom-1/4 left-1/4 text-3xl ${theme === 'dark' ? 'text-red-400' : 'text-red-600'} opacity-10 animate-pulse`} style={{ animationDelay: '3s' }}>
+        <div className={`absolute bottom-1/4 left-1/4 text-3xl ${theme === 'dark' ? 'text-primary-400' : 'text-primary'} opacity-10 animate-pulse`} style={{ animationDelay: '3s' }}>
           <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zM4 9v3c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4s-8-1.79-8-4zm0 5v3c0 2.21 3.58 4 8 4s8-1.79 8-4v-3c0 2.21-3.58 4-8 4s-8-1.79-8-4z"/>
           </svg>
@@ -101,7 +101,7 @@ const HeroSection = () => {
         </div>
 
         {/* npm Icon */}
-        <div className={`absolute top-3/4 left-1/3 text-2xl font-mono ${theme === 'dark' ? 'text-red-400' : 'text-red-600'} opacity-10 animate-bounce`} style={{ animationDelay: '0.8s' }}>
+        <div className={`absolute top-3/4 left-1/3 text-2xl font-mono ${theme === 'dark' ? 'text-primary-400' : 'text-primary'} opacity-10 animate-bounce`} style={{ animationDelay: '0.8s' }}>
           {'npm'}
         </div>
       </div>
@@ -111,19 +111,47 @@ const HeroSection = () => {
         {/* Greeting */}
         <div className="mb-6">
           <span className={`text-lg md:text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} font-medium`}>
-            👋 Hello, I'm
+            👋 Hello, I&apos;m
           </span>
         </div>
 
-        {/* Name */}
-        <h1 className="mb-6">
-          <span className={`block text-5xl md:text-7xl lg:text-8xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} tracking-tight`}>
-            Majd Firas
-          </span>
-          <span className="block text-2xl md:text-4xl lg:text-5xl font-light text-red-600 mt-2">
-            Software Developer
-          </span>
-        </h1>
+        {/* Name with Spotlight Effect */}
+        <div className="relative mb-6">
+          {/* Spotlight glow effect - Subtle */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Main spotlight */}
+            <div
+              className="absolute w-[700px] h-[400px] rounded-full"
+              style={{
+                background: theme === 'dark'
+                  ? 'radial-gradient(ellipse, rgba(217, 119, 87, 0.25) 0%, rgba(217, 119, 87, 0.15) 30%, rgba(217, 119, 87, 0.05) 60%, transparent 100%)'
+                  : 'radial-gradient(ellipse, rgba(217, 119, 87, 0.18) 0%, rgba(217, 119, 87, 0.1) 30%, rgba(217, 119, 87, 0.03) 60%, transparent 100%)',
+                filter: 'blur(70px)',
+              }}
+            ></div>
+          </div>
+
+          {/* Text content */}
+          <h1 className="relative">
+            <span className={`block text-5xl md:text-7xl lg:text-8xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} tracking-tight`}
+              style={{
+                fontFamily: "'Josefin Sans', sans-serif",
+                textShadow: theme === 'dark'
+                  ? '0 0 20px rgba(217, 119, 87, 0.15), 0 0 10px rgba(217, 119, 87, 0.1)'
+                  : '0 0 15px rgba(217, 119, 87, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)'
+              }}
+            >
+              Majd Firas
+            </span>
+            <span className="block text-2xl md:text-4xl lg:text-5xl font-light text-primary mt-2"
+              style={{
+                textShadow: '0 0 15px rgba(217, 119, 87, 0.2), 0 0 8px rgba(217, 119, 87, 0.15)'
+              }}
+            >
+              Software Engineer
+            </span>
+          </h1>
+        </div>
 
         {/* Dynamic Role */}
         <div className="mb-12 h-16 flex items-center justify-center">
@@ -137,10 +165,12 @@ const HeroSection = () => {
         <div className="flex justify-center space-x-6">
           <a
             href="https://github.com/majdfiras"
+            target="_blank"
+            rel="noopener noreferrer"
             className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
               theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-red-600'
-                : 'bg-gray-100 text-black hover:bg-red-600 hover:text-white'
+                ? 'bg-gray-800 text-white hover:bg-primary'
+                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
             }`}
             aria-label="GitHub"
           >
@@ -151,10 +181,12 @@ const HeroSection = () => {
 
           <a
             href="https://linkedin.com/in/majdfiras"
+            target="_blank"
+            rel="noopener noreferrer"
             className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
               theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-red-600'
-                : 'bg-gray-100 text-black hover:bg-red-600 hover:text-white'
+                ? 'bg-gray-800 text-white hover:bg-primary'
+                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
             }`}
             aria-label="LinkedIn"
           >
@@ -167,8 +199,8 @@ const HeroSection = () => {
             href="mailto:majdfir4s@gmail.com"
             className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
               theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-red-600'
-                : 'bg-gray-100 text-black hover:bg-red-600 hover:text-white'
+                ? 'bg-gray-800 text-white hover:bg-primary'
+                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
             }`}
             aria-label="Email"
           >
