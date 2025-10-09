@@ -35,7 +35,7 @@ const ExperienceSection = () => {
       location: 'Manama',
       description: [
         'Engineered a restaurant QR code ordering platform with Next.js, Laravel, and PostgreSQL',
-        'Integrated POS systems with providers (Foodics, SNAPos-POSbank, Odoo, CompuCash) to streamline data flow',
+        // 'Integrated POS systems with providers (Foodics, SNAPos-POSbank, Odoo, CompuCash) to streamline data flow',
         'Built responsive customer-facing interfaces for an improved user experience',
         'Integrated Google Pay and Apple Pay APIs to enhance checkout processes',
         'Implemented CI/CD pipelines with GitHub Actions for automated testing and deployments'
