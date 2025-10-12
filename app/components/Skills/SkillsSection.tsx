@@ -190,6 +190,11 @@ const SkillsSection = () => {
           name: 'Linux',
           icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
           color: '#FCC624'
+        },
+        {
+          name: 'Nginx',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg',
+          color: '#009639'
         }
       ]
     },
