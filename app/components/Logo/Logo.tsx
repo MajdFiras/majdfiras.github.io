@@ -1,40 +1,17 @@
-'use client'
-
-import React from 'react'
-import { useTheme } from 'next-themes'
-
 interface LogoProps {
   className?: string
   size?: 'sm' | 'md' | 'lg'
   onClick?: () => void
 }
 
+const sizeMap = {
+  sm: { box: 'w-10 h-10', fontSize: '24', dotR: '2.5', dotCx: '30', dotCy: '35' },
+  md: { box: 'w-14 h-14', fontSize: '32', dotR: '3.5', dotCx: '38', dotCy: '35' },
+  lg: { box: 'w-20 h-20', fontSize: '40', dotR: '4',   dotCx: '46', dotCy: '35' },
+}
+
 const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick }) => {
-  const { theme } = useTheme()
-
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16'
-  }
-
-  const fontSize = {
-    sm: '20',
-    md: '28',
-    lg: '36'
-  }
-
-  const dotSize = {
-    sm: '3',
-    md: '4',
-    lg: '5'
-  }
-
-  const dotPosition = {
-    sm: { cx: '30', cy: '24' },
-    md: { cx: '40', cy: '32' },
-    lg: { cx: '52', cy: '42' }
-  }
+  const s = sizeMap[size]
 
   return (
     <div
@@ -42,36 +19,35 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick }) => 
       onClick={onClick}
     >
       <svg
-        className={`${sizeClasses[size]} transition-transform duration-300 group-hover:scale-105`}
-        viewBox="0 0 48 48"
+        className={`${s.box} transition-transform duration-300 group-hover:scale-105`}
+        viewBox="0 0 54 48"
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* Letter M */}
         <text
           x="6"
           y="36"
-          fontFamily="var(--font-josefin-sans), sans-serif"
-          fontSize={fontSize[size]}
+          fontFamily="'Josefin Sans', sans-serif"
+          fontSize={s.fontSize}
           fontWeight="bold"
-          fill={theme === 'dark' ? '#ffffff' : theme === 'light' ? '#000000' : '#ffffff'}
-          className="transition-colors duration-300"
+          fill="#000000"
         >
           M
         </text>
 
-        {/* Primary dot */}
+        {/* Accent dot — bottom-right of M */}
         <circle
-          cx={dotPosition[size].cx}
-          cy={dotPosition[size].cy}
-          r={dotSize[size]}
-          fill="#d97757"
-          className="group-hover:scale-110 transition-transform duration-300"
-          style={{ transformOrigin: `${dotPosition[size].cx}px ${dotPosition[size].cy}px` }}
+          cx={s.dotCx}
+          cy={s.dotCy}
+          r={s.dotR}
+          fill="#000000"
+          className="group-hover:scale-125 transition-transform duration-300"
+          style={{ transformOrigin: `${s.dotCx}px ${s.dotCy}px` }}
         />
       </svg>
 
-      {/* Hover underline effect */}
-      <div className="w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 mt-1"></div>
+      {/* Hover underline */}
+      <div className="w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300 mt-1" />
     </div>
   )
 }
