@@ -1,45 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #222831;
-  --primary: #d97757;
-}
-
-/* Dark mode variables */
-.dark {
-  --background: #222831;
-  --foreground: #ededed;
-  --primary: #d97757;
+  --primary: #000000;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --color-primary-50: #fdf6f3;
-  --color-primary-100: #fae8e1;
-  --color-primary-200: #f5d1c3;
-  --color-primary-300: #eeae9b;
-  --color-primary-400: #e58568;
-  --color-primary-500: #d97757;
-  --color-primary-600: #c15436;
-  --color-primary-700: #a1422b;
-  --color-primary-800: #863a27;
-  --color-primary-900: #703426;
-  --color-primary-950: #3d1911;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-lato: var(--font-lato);
-  --font-josefin: var(--font-josefin-sans);
-}
-
-/* System preference dark mode (optional - next-themes handles this) */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #222831;
-    --foreground: #ededed;
-  }
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -47,61 +14,44 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  padding-top: 5rem; /* 80px - accounts for fixed header height */
+  background: #ffffff;
+  color: #0f172a;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Prevent transition flash on initial load */
-.no-transition * {
-  transition: none !important;
-  animation: none !important;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Ensure header background works correctly */
-header {
-  background-color: white;
+.animate-fade-up {
+  animation: fade-up 0.6s ease forwards;
 }
 
-.dark header {
-  background-color: black;
+.animate-fade-up-delay-1 {
+  animation: fade-up 0.6s ease 0.1s forwards;
+  opacity: 0;
 }
 
-/* Ensure logo text is visible in both modes */
-header h1 {
-  color: black;
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.6s ease 0.2s forwards;
+  opacity: 0;
 }
 
-.dark header h1 {
-  color: white;
+.animate-fade-up-delay-3 {
+  animation: fade-up 0.6s ease 0.35s forwards;
+  opacity: 0;
 }
 
-/* Additional dark mode styles for common elements */
-.dark {
-  color-scheme: dark;
-}
-
-/* Optional: Make sure all text inherits the foreground color */
-.dark * {
-  border-color: rgb(55 65 81 / 0.3);
-}
-
-/* Optional: Dark mode scrollbar */
-.dark::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dark::-webkit-scrollbar-track {
-  background: rgb(17 24 39);
-}
-
-.dark::-webkit-scrollbar-thumb {
-  background: rgb(75 85 99);
-  border-radius: 4px;
-}
-
-.dark::-webkit-scrollbar-thumb:hover {
-  background: rgb(107 114 128);
+.animate-fade-up-delay-4 {
+  animation: fade-up 0.6s ease 0.5s forwards;
+  opacity: 0;
 }

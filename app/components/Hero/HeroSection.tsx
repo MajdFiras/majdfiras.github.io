@@ -1,218 +1,222 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
+import { useEffect, useRef } from 'react'
 
-const HeroSection = () => {
-  const [mounted, setMounted] = useState(false)
-  const [currentRole, setCurrentRole] = useState(0)
-  const { theme } = useTheme()
+const roles = ['Full Stack Developer', 'Software Engineer', 'Problem Solver', 'Tech Enthusiast']
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/majdfiras' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/majdfiras' },
+  { label: 'Email', href: 'mailto:majdfir4s@gmail.com' },
+]
+const name = 'Majd Firas'
+const title = 'Software Engineer'
 
-  const roles = [
-    'Full Stack Developer',
-    'Software Engineer',
-    'Problem Solver',
-    'Tech Enthusiast'
-  ]
+// ── Particle canvas ─────────────────────────────────────────────────────────
+
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  r: number
+}
+
+function ParticleBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    setMounted(true)
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length)
-    }, 3000)
+    const LINE_DIST = 140
+    const SPEED = 0.35
+    let particles: Particle[] = []
+    let raf: number
+    let w = 0
+    let h = 0
 
-    return () => clearInterval(interval)
+    function init() {
+      w = canvas!.offsetWidth
+      h = canvas!.offsetHeight
+      canvas!.width = w
+      canvas!.height = h
+
+      const count = Math.min(Math.floor((w * h) / 14000), 90)
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * SPEED,
+        vy: (Math.random() - 0.5) * SPEED,
+        r: Math.random() * 1.2 + 0.8,
+      }))
+    }
+
+    function draw() {
+      ctx!.clearRect(0, 0, w, h)
+
+      // update positions
+      for (const p of particles) {
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0 || p.x > w) p.vx *= -1
+        if (p.y < 0 || p.y > h) p.vy *= -1
+      }
+
+      // draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < LINE_DIST) {
+            const alpha = (1 - dist / LINE_DIST) * 0.15
+            ctx!.beginPath()
+            ctx!.moveTo(particles[i].x, particles[i].y)
+            ctx!.lineTo(particles[j].x, particles[j].y)
+            ctx!.strokeStyle = `rgba(0,0,0,${alpha})`
+            ctx!.lineWidth = 0.8
+            ctx!.stroke()
+          }
+        }
+      }
+
+      // draw dots
+      for (const p of particles) {
+        ctx!.beginPath()
+        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx!.fillStyle = 'rgba(0,0,0,0.25)'
+        ctx!.fill()
+      }
+
+      raf = requestAnimationFrame(draw)
+    }
+
+    init()
+    draw()
+
+    const onResize = () => { init() }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
-  if (!mounted) {
-    return (
-      <section className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-        <div className="animate-pulse">
-          <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded w-96 mb-4"></div>
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 mb-6"></div>
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
-        </div>
-      </section>
-    )
-  }
-
   return (
-    <section className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
-      theme === 'dark' ? 'bg-black' : 'bg-white'
-    }`}>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, ${theme === 'dark' ? '#ffffff' : '#000000'} 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}></div>
-      </div>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+    />
+  )
+}
 
-      {/* Tech Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Code Brackets */}
-        <div className={`absolute top-20 left-10 text-6xl font-mono ${theme === 'dark' ? 'text-blue-500' : 'text-blue-600'} opacity-10 animate-pulse`}>
-          {'{ }'}
-        </div>
+// ── Icons ────────────────────────────────────────────────────────────────────
 
-        {/* HTML Tag */}
-        <div className={`absolute top-32 right-16 text-4xl font-mono ${theme === 'dark' ? 'text-green-400' : 'text-green-600'} opacity-10 animate-bounce`} style={{ animationDelay: '1s' }}>
-          {'</>'}
-        </div>
+const GitHubIcon = () => (
+  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+  </svg>
+)
 
-        {/* CSS Hash */}
-        <div className={`absolute bottom-40 left-16 text-5xl font-mono ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'} opacity-10 animate-pulse`} style={{ animationDelay: '2s' }}>
-          {'#'}
-        </div>
+const LinkedInIcon = () => (
+  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+  </svg>
+)
 
-        {/* JavaScript Function */}
-        <div className={`absolute top-1/2 left-8 text-3xl font-mono ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-600'} opacity-10 animate-bounce`} style={{ animationDelay: '0.5s' }}>
-          {'()=>'}
-        </div>
+const MailIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+)
 
-        {/* React JSX */}
-        <div className={`absolute bottom-32 right-12 text-4xl font-mono ${theme === 'dark' ? 'text-cyan-400' : 'text-cyan-600'} opacity-10 animate-pulse`} style={{ animationDelay: '1.5s' }}>
-          {'<React/>'}
-        </div>
+const icons: Record<string, React.FC> = { GitHub: GitHubIcon, LinkedIn: LinkedInIcon, Email: MailIcon }
 
-        {/* Git Branch */}
-        <div className={`absolute top-1/3 right-8 text-3xl ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'} opacity-10 animate-bounce`} style={{ animationDelay: '2.5s' }}>
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M21.007 8.222A3.738 3.738 0 0 0 15.045 5.2a3.737 3.737 0 0 0 1.156 6.583 2.988 2.988 0 0 1-2.668 1.67h-2.99a4.456 4.456 0 0 0-2.989 1.165V7.4a3.737 3.737 0 1 0-1.494 0v9.117a3.776 3.776 0 1 0 1.816.099 2.99 2.99 0 0 1 2.668-1.667h2.99a4.484 4.484 0 0 0 4.223-3.039 3.736 3.736 0 0 0 3.25-3.687zM4.565 3.738a2.242 2.242 0 1 1 4.484 0 2.242 2.242 0 0 1-4.484 0zm4.484 16.441a2.242 2.242 0 1 1-4.484 0 2.242 2.242 0 0 1 4.484 0zm8.221-9.715a2.242 2.242 0 1 1 0-4.485 2.242 2.242 0 0 1 0 4.485z"/>
-          </svg>
-        </div>
+const ArrowIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+  </svg>
+)
 
-        {/* Database Icon */}
-        <div className={`absolute bottom-1/4 left-1/4 text-3xl ${theme === 'dark' ? 'text-primary-400' : 'text-primary'} opacity-10 animate-pulse`} style={{ animationDelay: '3s' }}>
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zM4 9v3c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4s-8-1.79-8-4zm0 5v3c0 2.21 3.58 4 8 4s8-1.79 8-4v-3c0 2.21-3.58 4-8 4s-8-1.79-8-4z"/>
-          </svg>
-        </div>
+// ── Section ──────────────────────────────────────────────────────────────────
 
-        {/* API Endpoint */}
-        <div className={`absolute top-1/4 right-1/4 text-2xl font-mono ${theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'} opacity-10 animate-bounce`} style={{ animationDelay: '1.8s' }}>
-          {'/api'}
-        </div>
+const HeroSection = () => {
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-white">
+      <ParticleBackground />
 
-        {/* Terminal Prompt */}
-        <div className={`absolute bottom-1/3 right-1/3 text-3xl font-mono ${theme === 'dark' ? 'text-green-400' : 'text-green-600'} opacity-10 animate-pulse`} style={{ animationDelay: '2.2s' }}>
-          {'$'}
-        </div>
+      {/* Fade edges so content reads cleanly */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white/60 pointer-events-none" />
 
-        {/* npm Icon */}
-        <div className={`absolute top-3/4 left-1/3 text-2xl font-mono ${theme === 'dark' ? 'text-primary-400' : 'text-primary'} opacity-10 animate-bounce`} style={{ animationDelay: '0.8s' }}>
-          {'npm'}
-        </div>
-      </div>
-
-      {/* Main Content - Centered Layout */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        {/* Greeting */}
-        <div className="mb-6">
-          <span className={`text-lg md:text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} font-medium`}>
-            👋 Hello, I&apos;m
-          </span>
-        </div>
-
-        {/* Name with Spotlight Effect */}
-        <div className="relative mb-6">
-          {/* Spotlight glow effect - Subtle */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {/* Main spotlight */}
-            <div
-              className="absolute w-[700px] h-[400px] rounded-full"
-              style={{
-                background: theme === 'dark'
-                  ? 'radial-gradient(ellipse, rgba(217, 119, 87, 0.25) 0%, rgba(217, 119, 87, 0.15) 30%, rgba(217, 119, 87, 0.05) 60%, transparent 100%)'
-                  : 'radial-gradient(ellipse, rgba(217, 119, 87, 0.18) 0%, rgba(217, 119, 87, 0.1) 30%, rgba(217, 119, 87, 0.03) 60%, transparent 100%)',
-                filter: 'blur(70px)',
-              }}
-            ></div>
+      {/* Main content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 w-full pt-24 pb-32">
+        <div className="animate-fade-up">
+          <div className="flex items-center gap-2 mb-8">
+            <span className="inline-block w-8 h-px bg-black" />
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-black">
+              Available for hire
+            </span>
           </div>
+        </div>
 
-          {/* Text content */}
-          <h1 className="relative">
-            <span className={`block text-5xl md:text-7xl lg:text-8xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} tracking-tight`}
-              style={{
-                fontFamily: "'Josefin Sans', sans-serif",
-                textShadow: theme === 'dark'
-                  ? '0 0 20px rgba(217, 119, 87, 0.15), 0 0 10px rgba(217, 119, 87, 0.1)'
-                  : '0 0 15px rgba(217, 119, 87, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)'
-              }}
-            >
-              Majd Firas
-            </span>
-            <span className="block text-2xl md:text-4xl lg:text-5xl font-light text-primary mt-2"
-              style={{
-                textShadow: '0 0 15px rgba(217, 119, 87, 0.2), 0 0 8px rgba(217, 119, 87, 0.15)'
-              }}
-            >
-              Software Engineer
-            </span>
+        <div className="animate-fade-up-delay-1">
+          <h1 className="text-6xl sm:text-8xl lg:text-9xl font-extrabold text-black leading-[0.9] tracking-tighter mb-6">
+            Majd
+            <br />
+            Firas
           </h1>
         </div>
 
-        {/* Dynamic Role */}
-        <div className="mb-12 h-16 flex items-center justify-center">
-          <span className={`text-xl md:text-2xl lg:text-3xl font-semibold ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-all duration-500 transform`}>
-            {roles[currentRole]}
-            <span className="animate-pulse">|</span>
-          </span>
+        <div className="animate-fade-up-delay-2">
+          <p className="text-xl sm:text-2xl lg:text-3xl font-light text-slate-500 mb-5">
+            {title}
+          </p>
+          <p className="text-base sm:text-lg text-slate-500 max-w-lg leading-relaxed mb-10">
+            Building scalable, user-focused web applications with modern
+            technologies. Passionate about clean code and great experiences.
+          </p>
         </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center space-x-6">
-          <a
-            href="https://github.com/majdfiras"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
-              theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-primary'
-                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
-            }`}
-            aria-label="GitHub"
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
+        <div className="animate-fade-up-delay-3 flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            {socialLinks.map((link) => {
+              const Icon = icons[link.label]
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('mailto') ? undefined : '_blank'}
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="w-11 h-11 flex items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:border-black hover:text-black transition-all bg-white/70 backdrop-blur-sm"
+                >
+                  <Icon />
+                </a>
+              )
+            })}
+          </div>
 
           <a
-            href="https://linkedin.com/in/majdfiras"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
-              theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-primary'
-                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
-            }`}
-            aria-label="LinkedIn"
+            href="#contact"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-black hover:bg-slate-800 transition-colors active:scale-95"
           >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-          </a>
-
-          <a
-            href="mailto:majdfir4s@gmail.com"
-            className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
-              theme === 'dark'
-                ? 'bg-gray-800 text-white hover:bg-primary'
-                : 'bg-gray-100 text-black hover:bg-primary hover:text-white'
-            }`}
-            aria-label="Email"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
+            Get in touch
+            <ArrowIcon />
           </a>
         </div>
       </div>
 
+      {/* Scroll indicator */}
+      <div className="animate-fade-up-delay-4 absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-xs text-slate-400 font-medium tracking-widest uppercase">Scroll</span>
+        <div className="w-px h-10 bg-black opacity-20 animate-pulse" />
+      </div>
     </section>
   )
 }
 
 export default HeroSection
+export { roles, socialLinks, name, title }

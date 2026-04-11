@@ -1,164 +1,112 @@
-'use client'
+const profile =
+  'Software Engineer with experience in designing, developing, and deploying scalable applications. Skilled in modern web frameworks (MERN, Django, Laravel) and cloud technologies (AWS, Docker, Kubernetes). Strong background in algorithms, system design, and CI/CD pipelines with GitHub Actions. Passionate about building efficient, reliable, and user-focused solutions.'
 
-import React, { useState, useEffect } from 'react'
-import { useTheme } from 'next-themes'
+const stats = [
+  { label: 'Years Experience', value: '1+' },
+  { label: 'Projects Completed', value: '10+' },
+]
+
+const availability = {
+  status: 'Available',
+  workType: 'Full-time & Freelance',
+  remoteWork: 'Preferred',
+  location: 'Bahrain',
+  responseTime: 'Within 24h',
+  email: 'majdfir4s@gmail.com',
+}
+
+const availabilityRows = [
+  { label: 'Work Type', value: availability.workType },
+  { label: 'Remote Work', value: availability.remoteWork },
+  { label: 'Location', value: availability.location },
+  { label: 'Response Time', value: availability.responseTime },
+]
 
 const AboutSection = () => {
-  const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return (
-      <section className="py-20 bg-gray-50 dark:bg-black">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-48 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-96 mx-auto animate-pulse"></div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            </div>
-            <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
   return (
-    <section id="about" className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+    <section id="about" className="py-20 sm:py-32 bg-slate-50">
+      <div className="max-w-5xl mx-auto px-6">
+        {/* Header */}
+        <div className="mb-12 sm:mb-16">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-block w-8 h-px bg-black" />
+            <span className="text-xs font-bold uppercase tracking-widest text-black">
+              01. About
+            </span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
             About Me
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Left Side Content */}
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+
+          {/* Left column */}
           <div className="flex flex-col gap-6">
-            {/* Profile Box */}
-            <div className={`rounded-xl p-8 shadow-lg flex-1 ${
-              theme === 'dark'
-                ? 'bg-black border border-gray-800'
-                : 'bg-white border border-gray-200'
-            }`}>
-              <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-4`}>
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                 Profile
               </h3>
-              <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} leading-relaxed text-lg`}>
-                Software Engineer with experience in designing, developing, and deploying scalable applications.
-                Skilled in modern web frameworks (MERN, Django, Laravel) and cloud technologies (AWS, Docker, Kubernetes).
-                Strong background in algorithms, system design, and CI/CD pipelines with GitHub Actions.
-                Passionate about building efficient, reliable, and user-focused solutions.
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                {profile}
               </p>
             </div>
 
-            {/* Stats Box */}
-            <div className={`rounded-xl p-8 shadow-lg ${
-              theme === 'dark'
-                ? 'bg-black border border-gray-800'
-                : 'bg-white border border-gray-200'
-            }`}>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary mb-2">1+</div>
-                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    Years Experience
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary mb-2">10+</div>
-                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    Projects Completed
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="mailto:majdfir4s@gmail.com"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-white text-sm bg-black hover:bg-slate-800 transition-colors"
+              >
+                Get In Touch
+              </a>
+              <a
+                href="https://linkedin.com/in/majdfiras"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-slate-700 text-sm border border-slate-200 hover:border-black hover:text-black transition-all"
+              >
+                LinkedIn
+              </a>
             </div>
           </div>
 
-          {/* Right Side Content - Availability Status */}
-          <div className="flex">
-            <div className={`rounded-xl p-8 shadow-lg flex-1 flex flex-col ${
-              theme === 'dark'
-                ? 'bg-black border border-gray-800'
-                : 'bg-white border border-gray-200'
-            }`}>
-              <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} mb-6`}>
-                Availability Status
-              </h3>
-
-              <div className="flex flex-col justify-between flex-1 space-y-6">
-                {/* Current Status */}
-                <div className="flex items-center space-x-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className={`text-lg font-semibold ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>
-                    Available
-                  </span>
-                </div>
-
-                {/* Work Preferences */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Work Type
-                    </span>
-                    <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                      Full-time & Freelance
-                    </span>
+          {/* Right column */}
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 text-center"
+                >
+                  <div className="text-3xl sm:text-4xl font-extrabold text-black mb-1">
+                    {stat.value}
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Remote Work
-                    </span>
-                    <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                      Preferred
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Location
-                    </span>
-                    <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                      Bahrain
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Response Time
-                    </span>
-                    <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                      Within 24h
-                    </span>
+                  <div className="text-xs sm:text-sm text-slate-500 font-medium">
+                    {stat.label}
                   </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Contact CTA */}
-                <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
-                  <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'} mb-3`}>
-                    Ready to start your next project?
-                  </p>
-                  <a
-                    href="mailto:majdfir4s@gmail.com"
-                    className="inline-flex items-center px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-all duration-300 transform hover:scale-105"
-                  >
-                    Get In Touch
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </a>
-                </div>
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                </span>
+                <span className="text-green-600 font-semibold text-sm">
+                  {availability.status}
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                {availabilityRows.map((row) => (
+                  <div key={row.label} className="flex items-center justify-between gap-4">
+                    <span className="text-xs sm:text-sm text-slate-500 shrink-0">{row.label}</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-800 text-right">{row.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -170,3 +118,4 @@ const AboutSection = () => {
 }
 
 export default AboutSection
+export { profile, stats, availability }

@@ -1,18 +1,21 @@
-import Image from "next/image";
-import { Header } from "./components/Header/Header";
+import Navbar from "./components/Navbar/Navbar";
 import HeroSection from "./components/Hero/HeroSection";
 import AboutSection from "./components/About/AboutSection";
 import ExperienceSection from "./components/Experience/ExperienceSection";
 import SkillsSection from "./components/Skills/SkillsSection";
+import ContactSection from "./components/Contact/ContactSection";
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-      <HeroSection />
-      <AboutSection />
-      <ExperienceSection />
-      <SkillsSection />
-    </div>
+    <>
+      <Navbar />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <ExperienceSection />
+        <SkillsSection />
+        <ContactSection />
+      </main>
+    </>
   );
 }
