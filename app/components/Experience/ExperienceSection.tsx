@@ -21,7 +21,7 @@ const experiences: Experience[] = [
       'Engineered a restaurant QR code ordering platform with Next.js, Laravel, and PostgreSQL',
       'Built responsive customer-facing interfaces for an improved user experience',
       'Integrated Google Pay and Apple Pay APIs to enhance checkout processes',
-      'Implemented CI/CD pipelines with GitHub Actions for automated testing and deployments',
+      'Architected POS system integrations, including Compucash, to streamline order management and payment processing workflows',
     ],
     technologies: ['Next.js', 'Laravel', 'PostgreSQL', 'GitHub Actions', 'AWS'],
     type: 'work',
