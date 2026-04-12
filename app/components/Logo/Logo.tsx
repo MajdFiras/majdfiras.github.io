@@ -5,9 +5,9 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  sm: { box: 'w-10 h-10', fontSize: '24', dotR: '2.5', dotCx: '30', dotCy: '35' },
-  md: { box: 'w-14 h-14', fontSize: '32', dotR: '3.5', dotCx: '38', dotCy: '35' },
-  lg: { box: 'w-20 h-20', fontSize: '40', dotR: '4',   dotCx: '46', dotCy: '35' },
+  sm: { box: 'w-14 h-14', fontSize: '32', dotR: '3.5', dotCx: '40', dotCy: '32.5' },
+  md: { box: 'w-18 h-18', fontSize: '42', dotR: '4.5', dotCx: '50', dotCy: '31.5' },
+  lg: { box: 'w-24 h-24', fontSize: '52', dotR: '5.5', dotCx: '58', dotCy: '30.5' },
 }
 
 const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick }) => {
