@@ -26,7 +26,7 @@ const josefinSans = Josefin_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Majd Firas - Full Stack Developer",
+  title: "Majd Firas - Software Engineer",
   description: "Software Engineer specializing in web development with expertise in React, Next.js, Laravel, and cloud technologies. Building scalable applications with modern frameworks.",
 };
 
