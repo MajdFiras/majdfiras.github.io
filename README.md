@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# majdfiras.github.io
 
-## Getting Started
+Personal portfolio — Next.js 15 (App Router) exported as a static site and deployed to GitHub Pages.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # static export into out/
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`next build` writes the static site to `out/`, which is what
+`.github/workflows/nextjs.yml` uploads to Pages on every push to `master`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+  data/content.ts            All copy: profile, experience, skills, links.
+  globals.css                Design tokens, theming, animation layer.
+  layout.tsx                 Fonts, metadata, theme provider, scroll progress.
+  components/
+    Navbar/ Hero/ About/     Page sections, one folder each.
+    Experience/ Skills/ Contact/
+    ui/                      Shared primitives (see below).
+```
 
-## Learn More
+### Editing content
 
-To learn more about Next.js, take a look at the following resources:
+Everything the site says lives in `app/data/content.ts` — add an entry to
+`experiences` or `skillGroups` and the section picks it up, animations
+included. Section components hold layout only.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Design system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Colours, spacing accents and shadows are CSS custom properties on `:root` and
+`.dark` in `app/globals.css`, exposed to Tailwind v4 through `@theme inline`
+(`bg-paper`, `text-ink`, `text-muted`, `border-hair`, `text-accent`, …). There
+is no `tailwind.config.js` — Tailwind v4 reads the theme from the stylesheet.
+Dark mode is class-based via `next-themes` and the `@custom-variant dark` rule.
 
-## Deploy on Vercel
+### UI primitives (`app/components/ui`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Component | Role |
+| --- | --- |
+| `Reveal` | Scroll-triggered entrance, staggered with `delay`. One shared IntersectionObserver. |
+| `SpotlightCard` | Card whose glow follows the cursor (writes CSS vars, no re-render). |
+| `Aurora` | Drifting gradient backdrop, dot grid, optional pointer spotlight. |
+| `SplitText` | Per-character headline animation. |
+| `RotatingRole` | Typewriter cycling through roles. |
+| `CountUp`, `Marquee`, `Magnetic`, `ScrollProgress`, `CopyEmail` | Small interaction pieces. |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All motion is CSS-driven and collapses under `prefers-reduced-motion: reduce`.

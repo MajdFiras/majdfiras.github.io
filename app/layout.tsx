@@ -1,50 +1,72 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lato, Josefin_Sans } from "next/font/google";
-import { ThemeProvider } from 'next-themes';
-import "./globals.css";
+import type { Metadata, Viewport } from 'next'
+import { Inter, JetBrains_Mono, Sora } from 'next/font/google'
+import { ThemeProvider } from 'next-themes'
+import ScrollProgress from './components/ui/ScrollProgress'
+import './globals.css'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const sora = Sora({
+  variable: '--font-sora',
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  display: 'swap',
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+})
 
-const lato = Lato({
-  variable: "--font-lato",
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"],
-});
-
-const josefinSans = Josefin_Sans({
-  variable: "--font-josefin-sans",
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jb',
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: "Majd Firas - Software Engineer",
-  description: "Software Engineer specializing in web development with expertise in React, Next.js, Laravel, and cloud technologies. Building scalable applications with modern frameworks.",
-};
+  title: 'Majd Firas — Software Engineer',
+  description:
+    'Software Engineer in Bahrain building scalable web platforms with Next.js, Laravel and AWS — from restaurant QR ordering systems to AI agent platforms.',
+  keywords: [
+    'Majd Firas',
+    'Software Engineer',
+    'Full-stack Developer',
+    'Next.js',
+    'Laravel',
+    'Bahrain',
+  ],
+  authors: [{ name: 'Majd Firas', url: 'https://majdfiras.github.io' }],
+  openGraph: {
+    title: 'Majd Firas — Software Engineer',
+    description:
+      'Full-stack engineer building scalable web platforms with Next.js, Laravel and AWS.',
+    url: 'https://majdfiras.github.io',
+    siteName: 'Majd Firas',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Majd Firas — Software Engineer',
+    description:
+      'Full-stack engineer building scalable web platforms with Next.js, Laravel and AWS.',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7f5f2' },
+    { media: '(prefers-color-scheme: dark)', color: '#07080c' },
+  ],
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${lato.variable} ${josefinSans.variable} antialiased bg-white dark:bg-black text-black dark:text-white transition-colors duration-300`}
-        style={{ fontFamily: "'Lato', sans-serif" }}
+        className={`${sora.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -53,9 +75,11 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="theme"
         >
+          <ScrollProgress />
           {children}
+          <div className="grain-overlay" aria-hidden="true" />
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

@@ -1,267 +1,121 @@
-interface Experience {
-  id: number
-  company: string
-  position: string
-  duration: string
-  location: string
-  description: string[]
-  technologies: string[]
-  type: 'work' | 'education' | 'project'
-  website?: string
-  project?: {
-    name: string
-    tagline: string
-    url?: string
-  }
+'use client'
+
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Reveal from '../ui/Reveal'
+import SectionHeading from '../ui/SectionHeading'
+import SpotlightCard from '../ui/SpotlightCard'
+import { ExternalIcon, experienceIcons } from '../ui/Icons'
+import {
+  experienceFilters,
+  experiences,
+  type ExperienceItem,
+  type ExperienceType,
+} from '../../data/content'
+
+const typeLabel: Record<ExperienceType, string> = {
+  work: 'Work',
+  project: 'Project',
+  education: 'Education',
 }
 
-const experiences: Experience[] = [
-  {
-    id: 1,
-    company: 'Nine Square Technology',
-    position: 'Full-stack Developer',
-    duration: 'May 2026 – Present',
-    location: 'Manama',
-    project: {
-      name: 'Rannah',
-      tagline: 'AI agent platform',
-      url: 'https://rannah.io',
-    },
-    description: [
-      'Developed Rannah, a platform that lets users create AI agents and connect them to messaging channels such as Instagram and WhatsApp',
-      'Built an embeddable chat widget that users can add to their own web applications',
-      'Integrated agents with third-party tools including Zoho, Cal.com, and Google Sheets',
-      'Implemented voice capabilities, enabling agents to answer phone calls and respond to voice messages',
-    ],
-    technologies: [],
-    type: 'work',
-    website: 'https://ninesquare.io',
-  },
-  {
-    id: 2,
-    company: 'Use Local',
-    position: 'Full Stack Developer',
-    duration: 'Dec 2024 – Apr 2026',
-    location: 'Manama',
-    description: [
-      'Engineered a restaurant QR code ordering platform with Next.js, Laravel, and PostgreSQL',
-      'Built responsive customer-facing interfaces for an improved user experience',
-      'Integrated Google Pay and Apple Pay APIs to enhance checkout processes',
-      'Designed and implemented integrations with external POS systems to synchronize orders, payments, and inventory in real time.',
-    ],
-    technologies: ['Next.js', 'Laravel', 'PostgreSQL', 'GitHub Actions', 'AWS'],
-    type: 'work',
-    website: 'https://www.uselocal.co/',
-  },
-  {
-    id: 3,
-    company: 'MediaTalk',
-    position: 'Software Engineer',
-    duration: '2024',
-    location: 'Remote',
-    description: [
-      'Developed a social media application using the MERN stack and MaterialUI',
-      'Implemented secure JWT authentication for managing user sessions',
-      'Designed dark/light mode features and responsive UI for better accessibility',
-    ],
-    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'MaterialUI', 'JWT'],
-    type: 'project',
-    website: 'https://github.com/MajdFiras/MediaTalk',
-  },
-  {
-    id: 4,
-    company: 'IntelliHub',
-    position: 'Software Engineer',
-    duration: '2024',
-    location: 'Remote',
-    description: [
-      'Built a full-stack web application using Django, Tailwind, and PostgreSQL',
-      'Implemented JWT authentication and integrated external APIs to extend system functionality',
-      'Developed reporting features to support business insights',
-      'Containerized application with Docker for reproducible deployments',
-    ],
-    technologies: ['Django', 'Python', 'PostgreSQL', 'Tailwind CSS', 'Docker', 'JWT'],
-    type: 'project',
-  },
-  {
-    id: 5,
-    company: 'PAPER',
-    position: 'Software Engineer',
-    duration: '2024',
-    location: 'Remote',
-    description: [
-      'Implemented CRUD operations for task management using ReactJS and MaterialUI',
-      'Enhanced user experience by persisting tasks with local storage across sessions',
-    ],
-    technologies: ['React', 'MaterialUI', 'JavaScript', 'Local Storage'],
-    type: 'project',
-    website: 'https://github.com/MajdFiras/ebook-MERN',
-  },
-  {
-    id: 6,
-    company: 'University of Bahrain',
-    position: 'Bachelor in Computer Science',
-    duration: 'Sep 2019 – Aug 2024',
-    location: 'Bahrain',
-    description: [
-      'Completed comprehensive computer science curriculum with focus on software engineering',
-      'Developed strong foundation in algorithms, data structures, and system design',
-      'Gained practical experience in various programming languages and frameworks',
-      'Participated in collaborative projects and technical presentations',
-    ],
-    technologies: [],
-    type: 'education',
-  },
-]
+export default function ExperienceSection() {
+  const [filter, setFilter] = useState<ExperienceType | 'all'>('all')
+  const timeline = useRef<HTMLDivElement>(null)
+  const fill = useRef<HTMLDivElement>(null)
 
-const typeMeta: Record<
-  Experience['type'],
-  { label: string; bgClass: string; textClass: string }
-> = {
-  work:      { label: 'Work',      bgClass: 'bg-black',      textClass: 'text-white'     },
-  project:   { label: 'Project',   bgClass: 'bg-slate-100',  textClass: 'text-slate-700' },
-  education: { label: 'Education', bgClass: 'bg-slate-200',  textClass: 'text-slate-700' },
-}
+  const items = useMemo(
+    () => (filter === 'all' ? experiences : experiences.filter((e) => e.type === filter)),
+    [filter],
+  )
 
-const LinkIcon = () => (
-  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-  </svg>
-)
+  const counts = useMemo(() => {
+    const base: Record<string, number> = { all: experiences.length }
+    for (const item of experiences) base[item.type] = (base[item.type] ?? 0) + 1
+    return base
+  }, [])
 
-const ExperienceSection = () => {
+  // ── Fill the rail as the timeline passes the middle of the viewport ──
+  useEffect(() => {
+    let frame = 0
+
+    const update = () => {
+      frame = 0
+      const host = timeline.current
+      const bar = fill.current
+      if (!host || !bar) return
+      const rect = host.getBoundingClientRect()
+      const anchor = window.innerHeight * 0.55
+      const progress = (anchor - rect.top) / rect.height
+      bar.style.setProperty('--p', `${Math.min(Math.max(progress, 0), 1)}`)
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [items])
+
   return (
-    <section id="experience" className="py-20 sm:py-32 bg-white">
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Header */}
-        <div className="mb-12 sm:mb-16">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-block w-8 h-px bg-black" />
-            <span className="text-xs font-bold uppercase tracking-widest text-black">
-              02. Experience
-            </span>
+    <section
+      id="experience"
+      className="relative scroll-mt-24 border-t border-hair bg-deep/40 py-24 sm:py-32"
+    >
+      <div className="shell">
+        <SectionHeading
+          index="02"
+          label="Experience"
+          title="A trail of things I shipped."
+          lead="Six stops — two of them paid, the rest built out of curiosity. Filter by what you care about."
+        />
+
+        {/* ── Filters ───────────────────────────────────────────────── */}
+        <Reveal delay={220} className="mt-10 flex flex-wrap gap-2">
+          {experienceFilters.map((option) => {
+            const isActive = filter === option.value
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setFilter(option.value)}
+                aria-pressed={isActive}
+                className={`group inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-[0.8125rem] font-medium transition-all duration-[400ms] [transition-timing-function:var(--ease-out-expo)] ${
+                  isActive
+                    ? 'border-accent bg-accent-tint text-ink'
+                    : 'border-hair text-muted hover:border-hair-strong hover:text-ink'
+                }`}
+              >
+                {option.label}
+                <span
+                  className={`font-mono text-[0.6875rem] ${
+                    isActive ? 'text-accent' : 'text-faint'
+                  }`}
+                >
+                  {counts[option.value] ?? 0}
+                </span>
+              </button>
+            )
+          })}
+        </Reveal>
+
+        {/* ── Timeline ──────────────────────────────────────────────── */}
+        <div ref={timeline} key={filter} className="relative mt-12">
+          {/* Rail + scroll-driven fill */}
+          <div className="rail absolute bottom-6 left-[7px] top-8 w-px" aria-hidden="true">
+            <div ref={fill} className="rail-fill h-full w-full" />
           </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-            My Journey
-          </h2>
-          <p className="mt-3 text-base sm:text-lg text-slate-500 max-w-xl">
-            A timeline of my work experience, projects, and education.
-          </p>
-        </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line — offset to align with dot center */}
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-slate-200" />
-
-          <div className="space-y-6 sm:space-y-8">
-            {experiences.map((exp) => {
-              const meta = typeMeta[exp.type]
-              return (
-                <div key={exp.id} className="relative flex gap-5 sm:gap-8">
-                  {/* Timeline dot */}
-                  <div className="relative flex-shrink-0 w-4 flex justify-center pt-5">
-                    <div className="w-3.5 h-3.5 rounded-full bg-black ring-4 ring-white z-10" />
-                  </div>
-
-                  {/* Card */}
-                  <div className="flex-1 min-w-0 pb-2">
-                    <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 hover:border-slate-400 hover:shadow-md transition-all duration-200">
-                      {/* Type badge */}
-                      <span className={`inline-block text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-4 ${meta.bgClass} ${meta.textClass}`}>
-                        {meta.label}
-                      </span>
-
-                      {/* Position + dates */}
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-1">
-                        <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                          {exp.position}
-                        </h3>
-                        <span className="text-xs sm:text-sm text-slate-400 font-medium whitespace-nowrap">
-                          {exp.duration}
-                        </span>
-                      </div>
-
-                      {/* Company + location */}
-                      <div className="flex flex-wrap items-center gap-2 mb-4">
-                        {exp.website ? (
-                          <a
-                            href={exp.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 font-semibold text-sm text-black hover:underline"
-                          >
-                            {exp.company}
-                            <LinkIcon />
-                          </a>
-                        ) : (
-                          <span className="font-semibold text-sm text-black">
-                            {exp.company}
-                          </span>
-                        )}
-                        <span className="text-slate-300">·</span>
-                        <span className="text-xs sm:text-sm text-slate-400">{exp.location}</span>
-                      </div>
-
-                      {/* Nested project + description, indented together so the
-                          bullets line up with the start of the project name */}
-                      <div
-                        className={`mb-4 ${
-                          exp.project ? 'pl-3 border-l-2 border-slate-200' : ''
-                        }`}
-                      >
-                        {exp.project && (
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
-                            {exp.project.url ? (
-                              <a
-                                href={exp.project.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 font-semibold text-sm text-slate-900 hover:underline"
-                              >
-                                {exp.project.name}
-                                <LinkIcon />
-                              </a>
-                            ) : (
-                              <span className="font-semibold text-sm text-slate-900">
-                                {exp.project.name}
-                              </span>
-                            )}
-                            <span className="text-slate-300">·</span>
-                            <span className="text-xs sm:text-sm text-slate-500">
-                              {exp.project.tagline}
-                            </span>
-                          </div>
-                        )}
-
-                        <ul className="space-y-2">
-                          {exp.description.map((item, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                              <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-black" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Tech tags */}
-                      {exp.technologies.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                          {exp.technologies.map((tech) => (
-                            <span
-                              key={tech}
-                              className="text-xs font-medium px-2 sm:px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+          <div className="space-y-5">
+            {items.map((item, i) => (
+              <TimelineRow key={item.id} item={item} index={i} />
+            ))}
           </div>
         </div>
       </div>
@@ -269,6 +123,139 @@ const ExperienceSection = () => {
   )
 }
 
-export default ExperienceSection
-export { experiences }
-export type { Experience }
+/** Bullet list whose items slide in one after another once the row is on screen. */
+function Bullets({ lines, offset }: { lines: string[]; offset: number }) {
+  return (
+    <ul className="mt-4 space-y-2.5">
+      {lines.map((line, i) => (
+        <li
+          key={i}
+          className="flex gap-3 -translate-x-1 text-[0.875rem] leading-relaxed text-muted opacity-0 transition-all duration-700 [transition-delay:var(--d)] [.is-visible_&]:translate-x-0 [.is-visible_&]:opacity-100"
+          style={{ '--d': `${offset + i * 70}ms` } as React.CSSProperties}
+        >
+          <span className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-accent" />
+          {line}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function TimelineRow({ item, index }: { item: ExperienceItem; index: number }) {
+  const Icon = experienceIcons[item.type]
+
+  return (
+    <Reveal delay={index * 90} variant="up" className="group/row flex gap-5 sm:gap-8">
+      {/* Rail node — fills in once the row is on screen */}
+      <div className="relative w-4 shrink-0" aria-hidden="true">
+        <span className="absolute left-0 top-8 grid h-[15px] w-[15px] place-items-center">
+          <span className="absolute h-[15px] w-[15px] rounded-full border border-hair bg-paper transition-colors duration-700 [.is-visible_&]:border-accent" />
+          {/* `relative` keeps the dot painting above the absolutely positioned ring */}
+          <span className="relative h-[7px] w-[7px] rounded-full bg-hair-strong transition-colors duration-700 [.is-visible_&]:bg-accent" />
+          {item.current && (
+            <span className="anim-halo absolute h-[15px] w-[15px] rounded-full bg-accent/40" />
+          )}
+        </span>
+      </div>
+
+      {/* Card */}
+      <SpotlightCard className="min-w-0 flex-1 overflow-hidden p-5 sm:p-7">
+        {item.current && (
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent via-accent-2 to-transparent"
+          />
+        )}
+
+        {/* Meta row */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-hair bg-accent-tint px-2 py-1 text-accent">
+            <Icon className="h-3.5 w-3.5" />
+            <span className="eyebrow !text-[0.625rem] !text-accent">
+              {typeLabel[item.type]}
+            </span>
+          </span>
+
+          {item.current && (
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-2 py-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="eyebrow !text-[0.625rem] !text-emerald-500">Current</span>
+            </span>
+          )}
+
+          <span className="eyebrow ml-auto !text-[0.6875rem]">{item.duration}</span>
+        </div>
+
+        {/* Title block */}
+        <h3 className="mt-4 font-display text-xl font-bold tracking-tight sm:text-[1.375rem]">
+          {item.position}
+        </h3>
+
+        <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.875rem]">
+          {item.website ? (
+            <a
+              href={item.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline inline-flex items-center gap-1.5 font-semibold text-accent"
+            >
+              {item.company}
+              <ExternalIcon className="h-3.5 w-3.5" />
+            </a>
+          ) : (
+            <span className="font-semibold">{item.company}</span>
+          )}
+          <span className="text-hair-strong">·</span>
+          <span className="text-faint">{item.location}</span>
+        </div>
+
+        <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">{item.summary}</p>
+
+        {/* Bullets belonging to the role itself */}
+        {item.description.length > 0 && (
+          <Bullets lines={item.description} offset={160} />
+        )}
+
+        {/* Products built inside the role — nested, with their own bullets */}
+        {item.projects?.map((project, p) => (
+          <div
+            key={project.name}
+            className="mt-5 rounded-xl border border-hair bg-accent-tint/40 p-4 sm:p-5"
+          >
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="eyebrow !text-[0.5625rem]">Product</span>
+              {project.url ? (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-underline inline-flex items-center gap-1.5 font-display text-base font-bold"
+                >
+                  {project.name}
+                  <ExternalIcon className="h-3.5 w-3.5" />
+                </a>
+              ) : (
+                <span className="font-display text-base font-bold">{project.name}</span>
+              )}
+              <span className="text-hair-strong">·</span>
+              <span className="text-[0.8125rem] text-muted">{project.tagline}</span>
+            </div>
+
+            <Bullets lines={project.description} offset={220 + p * 80} />
+          </div>
+        ))}
+
+        {/* Stack */}
+        {item.technologies.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-1.5 border-t border-hair pt-5">
+            {item.technologies.map((tech) => (
+              <span key={tech} className="chip">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+      </SpotlightCard>
+    </Reveal>
+  )
+}

@@ -1,121 +1,105 @@
-const profile =
-  'Software Engineer with experience in designing, developing, and deploying scalable applications. Skilled in modern web frameworks (MERN, Django, Laravel) and cloud technologies (AWS, Docker, Kubernetes). Strong background in algorithms, system design, and CI/CD pipelines with GitHub Actions. Passionate about building efficient, reliable, and user-focused solutions.'
+import CountUp from '../ui/CountUp'
+import Reveal from '../ui/Reveal'
+import SectionHeading from '../ui/SectionHeading'
+import SpotlightCard from '../ui/SpotlightCard'
+import { ArrowRightIcon, capabilityIcons } from '../ui/Icons'
+import { availability, capabilities, person, stats } from '../../data/content'
 
-const stats = [
-  { label: 'Years Experience', value: '2+' },
-  { label: 'Projects Completed', value: '10+' },
-]
-
-const availability = {
-  status: 'Available',
-  workType: 'Full-time & Freelance',
-  remoteWork: 'Preferred',
-  location: 'Bahrain',
-  responseTime: 'Within 24h',
-  email: 'majdfir4s@gmail.com',
-}
-
-const availabilityRows = [
-  { label: 'Work Type', value: availability.workType },
-  { label: 'Remote Work', value: availability.remoteWork },
-  { label: 'Location', value: availability.location },
-  { label: 'Response Time', value: availability.responseTime },
-]
-
-const AboutSection = () => {
+export default function AboutSection() {
   return (
-    <section id="about" className="py-20 sm:py-32 bg-slate-50">
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Header */}
-        <div className="mb-12 sm:mb-16">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-block w-8 h-px bg-black" />
-            <span className="text-xs font-bold uppercase tracking-widest text-black">
-              01. About
-            </span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-            About Me
-          </h2>
-        </div>
+    <section id="about" className="relative scroll-mt-24 border-t border-hair py-24 sm:py-32">
+      <div className="shell">
+        <SectionHeading
+          index="01"
+          label="About"
+          title="Engineer first, pragmatist always."
+          lead={person.profile}
+        />
 
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-
-          {/* Left column */}
-          <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
-                Profile
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                {profile}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="mailto:majdfir4s@gmail.com"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-white text-sm bg-black hover:bg-slate-800 transition-colors"
-              >
-                Get In Touch
-              </a>
-              <a
-                href="https://linkedin.com/in/majdfiras"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-slate-700 text-sm border border-slate-200 hover:border-black hover:text-black transition-all"
-              >
-                LinkedIn
-              </a>
-            </div>
+        <div className="mt-16 grid gap-6 lg:grid-cols-12">
+          {/* ── What I do ─────────────────────────────────────────── */}
+          <div className="grid gap-4 lg:col-span-7">
+            {capabilities.map((capability, i) => {
+              const Icon = capabilityIcons[capability.icon]
+              return (
+                <Reveal key={capability.title} delay={i * 110} variant="up">
+                  <SpotlightCard className="flex gap-5 p-6 sm:p-7">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-hair bg-accent-tint text-accent">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h3 className="font-display text-[1.0625rem] font-bold">
+                        {capability.title}
+                      </h3>
+                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">
+                        {capability.body}
+                      </p>
+                    </div>
+                    <span className="eyebrow ml-auto hidden self-start sm:block">
+                      0{i + 1}
+                    </span>
+                  </SpotlightCard>
+                </Reveal>
+              )
+            })}
           </div>
 
-          {/* Right column */}
-          <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 text-center"
-                >
-                  <div className="text-3xl sm:text-4xl font-extrabold text-black mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-slate-500 font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-                </span>
-                <span className="text-green-600 font-semibold text-sm">
-                  {availability.status}
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {availabilityRows.map((row) => (
-                  <div key={row.label} className="flex items-center justify-between gap-4">
-                    <span className="text-xs sm:text-sm text-slate-500 shrink-0">{row.label}</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-800 text-right">{row.value}</span>
+          {/* ── Numbers + availability ────────────────────────────── */}
+          <div className="grid gap-4 lg:col-span-5">
+            <Reveal variant="right" delay={120}>
+              <SpotlightCard className="divide-y divide-[color:var(--hair)]">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex items-center justify-between gap-4 px-6 py-5"
+                  >
+                    <span className="text-[0.8125rem] text-muted">{stat.label}</span>
+                    <span className="font-display text-3xl font-bold tracking-tight text-accent">
+                      <CountUp to={stat.value} suffix={stat.suffix} />
+                    </span>
                   </div>
                 ))}
-              </div>
-            </div>
-          </div>
+              </SpotlightCard>
+            </Reveal>
 
+            <Reveal variant="right" delay={230}>
+              <SpotlightCard className="p-6">
+                <div className="flex items-center gap-2.5">
+                  <span className="relative grid h-2 w-2 place-items-center">
+                    <span className="anim-halo absolute h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  <span className="text-[0.8125rem] font-semibold text-emerald-500">
+                    {availability.status}
+                  </span>
+                </div>
+
+                <dl className="mt-5 space-y-3.5">
+                  {availability.rows.map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex items-baseline justify-between gap-4 text-[0.8125rem]"
+                    >
+                      <dt className="text-faint">{row.label}</dt>
+                      <dd className="text-right font-medium">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <a
+                  href={`mailto:${person.email}`}
+                  className="group mt-6 flex items-center justify-between gap-3 rounded-xl border border-hair px-4 py-3 transition-colors duration-300 hover:border-accent"
+                >
+                  <span className="font-mono text-[0.75rem] text-muted transition-colors group-hover:text-accent">
+                    {person.email}
+                  </span>
+                  <ArrowRightIcon className="h-4 w-4 text-faint transition-all duration-500 group-hover:translate-x-1 group-hover:text-accent" />
+                </a>
+              </SpotlightCard>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
   )
 }
-
-export default AboutSection
-export { profile, stats, availability }
