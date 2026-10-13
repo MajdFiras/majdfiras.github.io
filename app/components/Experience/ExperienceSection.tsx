@@ -8,11 +8,37 @@ interface Experience {
   technologies: string[]
   type: 'work' | 'education' | 'project'
   website?: string
+  project?: {
+    name: string
+    tagline: string
+    url?: string
+  }
 }
 
 const experiences: Experience[] = [
   {
     id: 1,
+    company: 'Nine Square Technology',
+    position: 'Full-stack Developer',
+    duration: 'May 2026 – Present',
+    location: 'Manama',
+    project: {
+      name: 'Rannah',
+      tagline: 'AI agent platform',
+      url: 'https://rannah.io',
+    },
+    description: [
+      'Developed Rannah, a platform that lets users create AI agents and connect them to messaging channels such as Instagram and WhatsApp',
+      'Built an embeddable chat widget that users can add to their own web applications',
+      'Integrated agents with third-party tools including Zoho, Cal.com, and Google Sheets',
+      'Implemented voice capabilities, enabling agents to answer phone calls and respond to voice messages',
+    ],
+    technologies: [],
+    type: 'work',
+    website: 'https://ninesquare.io',
+  },
+  {
+    id: 2,
     company: 'Use Local',
     position: 'Full Stack Developer',
     duration: 'Dec 2024 – Apr 2026',
@@ -28,7 +54,7 @@ const experiences: Experience[] = [
     website: 'https://www.uselocal.co/',
   },
   {
-    id: 2,
+    id: 3,
     company: 'MediaTalk',
     position: 'Software Engineer',
     duration: '2024',
@@ -43,7 +69,7 @@ const experiences: Experience[] = [
     website: 'https://github.com/MajdFiras/MediaTalk',
   },
   {
-    id: 3,
+    id: 4,
     company: 'IntelliHub',
     position: 'Software Engineer',
     duration: '2024',
@@ -58,7 +84,7 @@ const experiences: Experience[] = [
     type: 'project',
   },
   {
-    id: 4,
+    id: 5,
     company: 'PAPER',
     position: 'Software Engineer',
     duration: '2024',
@@ -72,7 +98,7 @@ const experiences: Experience[] = [
     website: 'https://github.com/MajdFiras/ebook-MERN',
   },
   {
-    id: 5,
+    id: 6,
     company: 'University of Bahrain',
     position: 'Bachelor in Computer Science',
     duration: 'Sep 2019 – Aug 2024',
@@ -177,15 +203,46 @@ const ExperienceSection = () => {
                         <span className="text-xs sm:text-sm text-slate-400">{exp.location}</span>
                       </div>
 
-                      {/* Description */}
-                      <ul className="space-y-2 mb-4">
-                        {exp.description.map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-black" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
+                      {/* Nested project + description, indented together so the
+                          bullets line up with the start of the project name */}
+                      <div
+                        className={`mb-4 ${
+                          exp.project ? 'pl-3 border-l-2 border-slate-200' : ''
+                        }`}
+                      >
+                        {exp.project && (
+                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                            {exp.project.url ? (
+                              <a
+                                href={exp.project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 font-semibold text-sm text-slate-900 hover:underline"
+                              >
+                                {exp.project.name}
+                                <LinkIcon />
+                              </a>
+                            ) : (
+                              <span className="font-semibold text-sm text-slate-900">
+                                {exp.project.name}
+                              </span>
+                            )}
+                            <span className="text-slate-300">·</span>
+                            <span className="text-xs sm:text-sm text-slate-500">
+                              {exp.project.tagline}
+                            </span>
+                          </div>
+                        )}
+
+                        <ul className="space-y-2">
+                          {exp.description.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                              <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-black" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
                       {/* Tech tags */}
                       {exp.technologies.length > 0 && (

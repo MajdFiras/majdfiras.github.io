@@ -153,15 +153,6 @@ const HeroSection = () => {
 
       {/* Main content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 w-full pt-24 pb-32">
-        <div className="animate-fade-up">
-          <div className="flex items-center gap-2 mb-8">
-            <span className="inline-block w-8 h-px bg-black" />
-            <span className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-black">
-              Available for hire
-            </span>
-          </div>
-        </div>
-
         <div className="animate-fade-up-delay-1">
           <h1 className="text-6xl sm:text-8xl lg:text-9xl font-extrabold text-black leading-[0.9] tracking-tighter mb-6">
             Majd

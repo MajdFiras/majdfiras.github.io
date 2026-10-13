@@ -2,7 +2,7 @@ const profile =
   'Software Engineer with experience in designing, developing, and deploying scalable applications. Skilled in modern web frameworks (MERN, Django, Laravel) and cloud technologies (AWS, Docker, Kubernetes). Strong background in algorithms, system design, and CI/CD pipelines with GitHub Actions. Passionate about building efficient, reliable, and user-focused solutions.'
 
 const stats = [
-  { label: 'Years Experience', value: '1+' },
+  { label: 'Years Experience', value: '2+' },
   { label: 'Projects Completed', value: '10+' },
 ]
 
